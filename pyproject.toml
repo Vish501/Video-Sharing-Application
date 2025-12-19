@@ -1,0 +1,32 @@
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "video-sharing-application"
+version = "0.1.0"
+authors = [
+    { name="Vish501" }
+]
+description = "Video sharing application built using fastapi"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "aiosqlite>=0.21.0",
+    "fastapi>=0.118.0",
+    "fastapi-users[sqlalchemy]>=14.0.1",
+    "imagekitio>=4.2.0",
+    "python-dotenv>=1.1.1",
+    "streamlit>=1.50.0",
+    "uvicorn[standard]>=0.37.0",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[project.urls]
+Homepage = "https://github.com/Vish501/Video-Sharing-Application"
+Issues = "https://github.com/Vish501/Video-Sharing-Application/issues"
