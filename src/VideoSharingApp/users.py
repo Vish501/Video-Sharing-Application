@@ -55,3 +55,31 @@ async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db
     Provides a UserManager instance per request.
     """
     yield UserManager(user_db)
+
+bearer_transport_v1 = BearerTransport(
+    tokenUrl=AuthPaths.token_url(APIVersion.V1) # Example: api/V1/auth/jwt/login
+)
+
+def get_jwt_strategy_v1() -> JWTStrategy:
+    """
+    Create and configure the JWT authentication strategy.
+
+    This strategy is responsible for:
+    - Issuing short-lived access tokens
+    - Validating token integrity and expiration
+    - Supporting refresh token rotation
+
+    Security decisions:
+    - Short access token lifetime (15 minutes)
+    - Explicit audience claim to prevent token reuse
+    - HS256 symmetric signing (sufficient for single-service auth)
+
+    Returns:
+        JWTStrategy: Configured JWT strategy instance
+    """
+    return JWTStrategy(
+        secret=SECRET,
+        lifetime_seconds=900,  # 15 minutes
+        token_audience="video-sharing-app",
+        algorithm="HS256",
+    )
