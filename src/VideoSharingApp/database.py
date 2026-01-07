@@ -74,3 +74,14 @@ class Post(Base):
 
     def __repr__(self) -> str:
         return f"<Post id={self.id} user_id={self.user_id}>"
+
+engine = create_async_engine(
+    DATABASE_URL,
+    echo=False,     # set True for SQL debugging
+    future=True,    # SQLAlchemy 2.0 style
+)
+
+async_session_maker = async_sessionmaker(
+    engine,
+    expire_on_commit=False,  # prevents detached objects
+)
