@@ -1,4 +1,5 @@
 import uuid
+from collections.abc import AsyncGenerator
 
 from sqlalchemy import Column, String, Text, DateTime, ForeignKey
 from sqlalchemy.sql import func
@@ -7,6 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker
 
 from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTableUUID
+from fastapi import Depends
 
 from src.VideoSharingApp.core.dependencies import get_database_url
 from src.VideoSharingApp.utils.logger import get_logger
@@ -85,3 +87,42 @@ async_session_maker = async_sessionmaker(
     engine,
     expire_on_commit=False,  # prevents detached objects
 )
+
+async def create_db_and_tables() -> None:
+    """
+    Create all database tables.
+
+    Intended to be executed once during application startup.
+    Failure here is considered fatal and should prevent app startup.
+    """
+    try:
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+    except Exception as e:
+        logger.exception(f"Database initialization failed: {e}")
+        raise
+
+async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
+    """
+    FastAPI dependency that provides a transactional AsyncSession.
+    - One database session per request
+    - Automatically closed after request finishes
+    """
+    async with async_session_maker() as session:
+        try:
+            yield session
+        except Exception as e:
+            logger.error(f"Failed to yeild async session.")
+            raise
+        finally:
+            # session must always close no matter what
+            await session.close()
+
+
+async def get_user_db(session: AsyncSession = Depends(get_async_session)) -> AsyncGenerator[SQLAlchemyUserDatabase, None]:
+    """
+    FastAPI Users database adapter.
+
+    Bridges SQLAlchemy AsyncSession with fastapi-users user persistence.
+    """
+    yield SQLAlchemyUserDatabase(session, User)
