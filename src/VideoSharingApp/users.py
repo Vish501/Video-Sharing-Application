@@ -83,3 +83,16 @@ def get_jwt_strategy_v1() -> JWTStrategy:
         token_audience="video-sharing-app",
         algorithm="HS256",
     )
+
+auth_backend_v1 = AuthenticationBackend(
+    name="jwt",
+    transport=bearer_transport_v1,
+    get_strategy=get_jwt_strategy_v1
+)
+
+fastapi_users = FastAPIUsers[User, uuid.UUID](
+    get_user_manager,
+    [auth_backend_v1],
+)
+
+current_active_user = fastapi_users.current_user(active=True)
