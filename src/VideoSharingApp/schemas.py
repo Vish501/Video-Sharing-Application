@@ -35,3 +35,23 @@ class PostResponse(BaseModel):
         )
         super().__init__(**data)
 
+
+class UserRead(schemas.BaseUser[uuid.UUID]):
+    """
+    Schema returned when reading user data.
+    """
+    pass
+
+
+class UserCreate(schemas.BaseUserCreate):
+    """
+    Schema used during user registration.
+    """
+    pass
+
+
+class UserUpdate(schemas.BaseUserUpdate):
+    """
+    Schema used when updating user profile.
+    """
+    pass
