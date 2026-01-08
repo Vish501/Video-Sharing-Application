@@ -4,7 +4,6 @@ A full‑stack image and video sharing application inspired by an Instagram‑st
 
 The project demonstrates production‑grade backend architecture, clean API versioning, authentication, media uploads, and a minimal but functional frontend client.
 
----
 
 ## Tech Stack
 Backend: FastAPI, SQLAlchemy (async), FastAPI Users  
@@ -13,7 +12,6 @@ Media: ImageKit
 Auth: JWT  
 Infra: uv, uv.lock
 
----
 
 ## 📰 Features:
 
@@ -56,7 +54,6 @@ Infra: uv, uv.lock
 - Feed page with delete controls
 - Caption overlay rendering via ImageKit transforms
 
----
 
 ## 📂 Project Structure
 
@@ -88,7 +85,6 @@ Infra: uv, uv.lock
 └── README.md
 ```
 
----
 
 ## 🚀 Getting Started
 
@@ -135,7 +131,7 @@ In a separate terminal:
 streamlit run frontend.py
 ```
 
----
+
 ## API Overview
 
 **Health Check**
@@ -163,7 +159,6 @@ POST /api/v1/posts/upload
 DELETE /api/v1/posts/{post_id}
 ```
 
----
 
 ## 🧠 Design Decisions
 
@@ -174,7 +169,6 @@ DELETE /api/v1/posts/{post_id}
 - Lockfile committed for reproducible builds
 - Frontend kept simple to showcase backend capabilities
 
----
 
 ## Future Improvements
 
@@ -185,10 +179,9 @@ DELETE /api/v1/posts/{post_id}
 - Production‑grade deployment (Docker + Gunicorn)
 - Object storage abstraction
 
----
 
 ## 🙋‍♂️ Author
 
-This project was developed and maintained by **Vish501**, at the time of this commit working as an AI Engineer, with a background in finance and a strong focus on MLOps, deep learning, and end-to-end machine learning systems.
+This project was developed and is maintained by **Vish501** - an AI Egineer, with experience spanning finance and applied machine learning, building end-to-end systems that bridge product thinking and scalable backend engineering.
 
 Feel free to contribute to this project by submitting issues or pull requests. For any questions or suggestions, please contact Vish501.
