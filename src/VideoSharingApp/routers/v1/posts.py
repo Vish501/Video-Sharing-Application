@@ -1,6 +1,6 @@
 import shutil, os, uuid, tempfile
 from uuid import UUID
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 from datetime import datetime
 
 from fastapi import APIRouter, HTTPException, UploadFile, File, Form, Depends, Request
@@ -27,16 +27,14 @@ class PostRead(BaseModel):
     - Decouple API responses from SQLAlchemy ORM models
     - Provide a stable contract for frontend consumers
     """
-
     id: UUID
     caption: str
     image_url: str
     file_type: str  # Expected values: "image" | "video"
     created_at: datetime
 
-    class Config:
-        # Enables creation of this schema directly from SQLAlchemy ORM objects
-        from_attributes = True
+    # Enables creation of this schema directly from SQLAlchemy ORM objects
+    model_config = ConfigDict(from_attributes=True)
 
 
 class PostDeleteResponse(BaseModel):
