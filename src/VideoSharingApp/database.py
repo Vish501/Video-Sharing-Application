@@ -10,8 +10,8 @@ from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sess
 from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTableUUID
 from fastapi import Depends
 
-from src.VideoSharingApp.core.dependencies import get_database_url
-from src.VideoSharingApp.utils.logger import get_logger
+from VideoSharingApp.core.dependencies import get_database_url
+from VideoSharingApp.utils.logger import get_logger
 
 logger = get_logger(__name__)
 
