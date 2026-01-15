@@ -32,14 +32,14 @@ def get_database_url() -> str:
 
     # Validate database directory
     if not database_dir or not database_dir.strip():
-        raise RuntimeError("DATABASE_DIR  cannot be empty. Check environment configurations.")
+        raise RuntimeError("DATABASE_DIR cannot be empty. Check environment configurations.")
     
     # Validate database name
     if not database_name or not database_name.strip():
         raise RuntimeError("DATABASE_NAME cannot be empty. Check environment configurations.")
 
     if not database_name.endswith(".db"):
-        raise RuntimeError("DATABASE_NAME  needs to be suffixed with `.db`. Check environment configurations.")
+        raise RuntimeError("DATABASE_NAME needs to be suffixed with `.db`. Check environment configurations.")
 
     # Ensure database directory exists
     try:
