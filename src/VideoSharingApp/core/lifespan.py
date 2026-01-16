@@ -2,7 +2,7 @@ from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from dotenv import load_dotenv
 
-from VideoSharingApp.database import create_db_and_tables
+from VideoSharingApp.database import create_db_and_tables, close_engine
 from VideoSharingApp.images import create_imagekit_client
 from VideoSharingApp.utils.logger import get_logger
 
@@ -19,6 +19,9 @@ async def lifespan(app: FastAPI):
     Initializes:
     - Database tables
     - ImageKit client
+
+    Closes:
+    - Engine
     """
     try:
         logger.info("Starting application startup sequence.")
@@ -30,6 +33,9 @@ async def lifespan(app: FastAPI):
         logger.info("ImageKit client initialized successfully.")
 
         yield
+
+        await close_engine()
+        logger.info("Engine closed.")
 
     except Exception as e:
         logger.critical(
