@@ -8,7 +8,7 @@ from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine, async_sessionmaker, AsyncEngine
 
 from fastapi_users.db import SQLAlchemyUserDatabase, SQLAlchemyBaseUserTableUUID
-from fastapi import Depends
+from fastapi import Depends, HTTPException
 
 from VideoSharingApp.core.dependencies import get_database_url
 from VideoSharingApp.utils.logger import get_logger
@@ -164,6 +164,11 @@ async def get_async_session() -> AsyncGenerator[AsyncSession, None]:
     async with session_maker() as session:
         try:
             yield session
+
+        except HTTPException:
+            await session.rollback()
+            raise
+
         except Exception as e:
             await session.rollback()
             logger.error(f"Failed to yeild async session: {e}")

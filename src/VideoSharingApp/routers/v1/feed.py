@@ -12,7 +12,12 @@ async def get_feed(session: AsyncSession = Depends(get_async_session), user: Use
     """
     Fetch the global feed ordered by most recent posts.
     """
-    posts = (await session.execute(select(Post).order_by(Post.created_at.desc()))).scalars().all()
+    posts = (
+        await session.execute(
+            select(Post)
+            .order_by(Post.created_at.desc(), Post.id.desc())
+        )
+    ).scalars().all()
 
     users = (await session.execute(select(User))).scalars().all()
     users_map = {u.id: u.email for u in users}
