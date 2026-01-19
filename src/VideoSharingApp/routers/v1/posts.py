@@ -94,6 +94,9 @@ async def upload_file(
 
         return post
     
+    except HTTPException:
+        raise
+
     except Exception as e:
         logger.exception(f"Failed to upload post: {e}")
         raise HTTPException(status_code=500, detail="Upload failed") from e
@@ -132,6 +135,9 @@ async def delete_post(
         await session.commit()
 
         return PostDeleteResponse(success=True)
+
+    except HTTPException:
+        raise
 
     except Exception as e:
         logger.exception("Failed to delete post")
