@@ -32,8 +32,8 @@ jobs:
       - name: Set environment variables for tests
         run: |
           echo "ENV=test" >> $GITHUB_ENV
-          echo "DATABASE_URL=sqlite:///./test.db" >> $GITHUB_ENV
-          echo "SECRET_KEY=test-secret" >> $GITHUB_ENV
+          echo "DATABASE_URL=sqlite+aiosqlite:///./test.db" >> $GITHUB_ENV
+          echo "JWT_SECRET_TOKEN=test-secret" >> $GITHUB_ENV
           echo "IMAGEKIT_PUBLIC_KEY=fake" >> $GITHUB_ENV
           echo "IMAGEKIT_PRIVATE_KEY=fake" >> $GITHUB_ENV
           echo "IMAGEKIT_URL_ENDPOINT=fake" >> $GITHUB_ENV
