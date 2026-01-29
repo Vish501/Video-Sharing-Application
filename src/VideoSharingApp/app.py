@@ -9,9 +9,27 @@ from VideoSharingApp.routers import health          # Validates if a connection 
 from VideoSharingApp.routers.v1 import posts, feed
 from VideoSharingApp.constants.auth import AuthPaths, APIVersion
 
-logger = get_logger(__name__)
+from VideoSharingApp.database import get_engine
+from VideoSharingApp.observability.otel import setup_tracing
+from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
+from opentelemetry.instrumentation.sqlalchemy import SQLAlchemyInstrumentor
+from opentelemetry.instrumentation.logging import LoggingInstrumentor
 
+# Setting up Observability and logging
+setup_tracing()
+
+# Initalizing Application after Observability
 app = FastAPI(lifespan=lifespan)
+
+
+# Setting up additional Instrumentors for observability
+if not FastAPIInstrumentor().is_instrumented_by_opentelemetry:
+    FastAPIInstrumentor.instrument_app(app)
+
+SQLAlchemyInstrumentor().instrument(engine=get_engine().sync_engine)
+LoggingInstrumentor().instrument(set_logging_format=False)
+
+logger = get_logger(__name__)
 
 # Connecting auth endpoints
 base_prefix = AuthPaths.base_prefix(APIVersion.V1)    #/api/v1
