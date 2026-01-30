@@ -38,7 +38,7 @@ def _create_logger() -> logging.Logger:
     stage = os.getenv("STAGE", "test")
 
     # Getting working directory
-    root_dir = os.getenv("WORKING_DIRECTORY").strip() or None
+    root_dir = os.getenv("WORKING_DIRECTORY", "").strip() or None
     if not root_dir or not os.path.isdir(root_dir) or not is_path_related(root_dir, os.path.dirname(__file__)):
         root_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), "../../../"))
 
